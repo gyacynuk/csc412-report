@@ -43,6 +43,10 @@ export default createGlobalStyle`
     font-size: ${({ theme }) => theme.typography.h1.fontSize};
     font-weight: ${({ theme }) => theme.typography.h1.fontWeight};
     line-height: ${({ theme }) => theme.typography.h1.lineHeight};
+
+    ${({ theme }) => theme.isMobile`
+      font-size: 2.5rem;
+    `}
   }
   
   h2 {
