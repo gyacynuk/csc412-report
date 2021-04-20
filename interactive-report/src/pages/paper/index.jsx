@@ -182,7 +182,12 @@ const Paper = props => {
                 We now introduce our approach to music generation via NICE, implemented
                 using <em>Reversible Residual Networks</em> (RevNets). 
             </p>
+
             <SectionSubHeader num='2.1' header='Dataset and Preprocessing'/>
+            <p>
+                Our dataset is derived from the <a href='https://colinraffel.com/projects/lmd/'>Lakh MIDI Dataset</a> [1]
+                - a collection of 174,154 multitrack pianorolls in MIDI format.
+            </p>
 
             <DoublePane>
                 <Center>

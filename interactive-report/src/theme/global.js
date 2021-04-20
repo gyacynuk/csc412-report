@@ -25,6 +25,10 @@ export default createGlobalStyle`
     font-weight: ${({ theme }) => theme.typography.medium};
   }
 
+  a {
+    text-decoration: none;
+  }
+
   p {
     margin: 0;
     margin-bottom: 24px;
