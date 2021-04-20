@@ -12,6 +12,7 @@ import complexPrImg from '../../assets/images/complex-pr.png'
 import simplePrWav from '../../assets/audio/simple-pr.wav'
 import complexPrWav from '../../assets/audio/complex-pr.wav'
 import References from '../../components/references'
+import { isMobile } from '../../theme/breakpoint'
 
 const Center = styled.div`
     width: 100%;
@@ -38,6 +39,7 @@ const RevBlockImg = styled(RevBlockSVG)`
 const Image = styled.img`
     width: 100%;
     max-width: 500px;
+    margin: 4px 0;
 `
 
 const AudioWrapper = styled.div`
@@ -47,6 +49,10 @@ const AudioWrapper = styled.div`
 const DoublePane = styled.div`
     display: flex;
     justify-content: space-between;
+
+    ${({theme}) => theme.isMobile`
+        flex-direction: column;
+    `}
 `
 
 const Paper = props => {
