@@ -1,3 +1,17 @@
 {
-  "dependencies": {}
+  "name": "nice-music-synthesis",
+  "version": "1.0.0",
+  "description": "CSC412 final project, as an interactive report",
+  "main": "server/index.js",
+  "repository": "https://github.com/gyacynuk/csc412-report",
+  "author": "Griffin <griffin.yacynuk@mail.utoronto.ca>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "cd interactive-report && yarn install && yarn build",
+    "start": "node ./server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
