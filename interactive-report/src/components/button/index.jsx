@@ -5,8 +5,8 @@ import styled from 'styled-components'
 const StyledButton = styled.button`
     width: ${props => props.width || 'auto'};
     height: ${props => props.height || 'auto'};
-    padding: 8px 16px;
     margin: ${props => props.margin || '0'};
+    padding: 8px 16px;
 
     background-color: ${({theme}) => theme.palette.background};
     color: ${({theme}) => theme.palette.text.regular};
