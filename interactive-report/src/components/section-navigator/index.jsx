@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const LEVEL_WIDTH = {
     1: '40px',
-    2: '30px',
+    2: '28px',
     3: '16px'
 }
 const MIN_LINE_WIDTH = '12px'

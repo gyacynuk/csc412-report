@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
 import Authors from '../../components/authors'
 import { BlockMath, InlineMath } from 'react-katex'
 import SectionHeader from '../../components/section-header'
@@ -12,12 +11,12 @@ import complexPrImg from '../../assets/images/complex-pr.png'
 import simplePrWav from '../../assets/audio/simple-pr.wav'
 import complexPrWav from '../../assets/audio/complex-pr.wav'
 import References from '../../components/references'
-import { isMobile } from '../../theme/breakpoint'
 import SectionNavigator from '../../components/section-navigator'
 import EquationLabel from '../../components/equation-label'
 
 const PageWrapper = styled.div`
     position: relative;
+    margin: 32px 0;
 `
 
 const Center = styled.div`

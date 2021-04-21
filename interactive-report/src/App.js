@@ -1,23 +1,30 @@
-import styled, { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 import { GlobalStyleComponent, lightTheme } from './theme'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import ContentWrapper from './components/content-wrapper'
-import 'katex/dist/katex.min.css'
 import Paper from './pages/paper'
 
-const PageWrapper = styled.div`
-	margin: 32px 0;
-`
+import 'katex/dist/katex.min.css'
+import NotFoundPage from './pages/not-found'
+
 
 function App() {
   return (
 	<ThemeProvider theme={lightTheme}>
 		<GlobalStyleComponent />
 
-		<PageWrapper>
-			<ContentWrapper>
-				<Paper/>
-			</ContentWrapper>
-		</PageWrapper>
+		<ContentWrapper>
+			<Router>
+				<Switch>
+					<Route path='/' exact component={Paper} />
+
+
+					{/* If nothing was matched, then 404 */}
+					<Route path='/404' exact component={NotFoundPage} />
+					<Redirect to='/404'/>
+				</Switch>
+			</Router>
+		</ContentWrapper>
 		
 		
 	</ThemeProvider>
