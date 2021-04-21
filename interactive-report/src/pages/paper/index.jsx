@@ -14,6 +14,7 @@ import complexPrWav from '../../assets/audio/complex-pr.wav'
 import References from '../../components/references'
 import { isMobile } from '../../theme/breakpoint'
 import SectionNavigator from '../../components/section-navigator'
+import EquationLabel from '../../components/equation-label'
 
 const PageWrapper = styled.div`
     position: relative;
@@ -133,17 +134,22 @@ const Paper = props => {
                 Since <InlineMath math='z = f_\theta(x)'/> is comprised of independent components, we can factorize the
                 likelihood of <InlineMath math='z'/>. as follows:
 			</p>
-			<BlockMath math='p_Z(z) = \prod_d^D p_{Z_d}(z_d)' />
+            <EquationLabel label={'1'}>
+                <BlockMath math='p_Z(z) = \prod_d^D p_{Z_d}(z_d)' />
+            </EquationLabel>
+			
             <p>
                 Furthermore, since <InlineMath math='f'/> is bijective and differentiable it can be considered as a
                 change-of-variables transformation. This allows us to rewrite the distribution
                 of <InlineMath math='p_X(x)'/> in terms of <InlineMath math='p_Z(z)'/>:
             </p>
-            <BlockMath math='
-                \begin{aligned}
-                    p_X(x) &= p_Z(z) \begin{vmatrix}\frac{\partial z}{\partial x}\end{vmatrix}\\
-                    &= p_Z(f_\theta(x)) \begin{vmatrix}\frac{\partial f_\theta(x)}{\partial x}\end{vmatrix}
-                \end{aligned}' />
+            <EquationLabel label={'2'}>
+                <BlockMath math='
+                    \begin{aligned}
+                        p_X(x) &= p_Z(z) \begin{vmatrix}\frac{\partial z}{\partial x}\end{vmatrix}\\
+                        &= p_Z(f_\theta(x)) \begin{vmatrix}\frac{\partial f_\theta(x)}{\partial x}\end{vmatrix}
+                    \end{aligned}' />
+            </EquationLabel>
             <p>
                 At this point, our choice of <InlineMath math='f_\theta'/> becomes critical. We need it to be defined
                 such that both its inverse, and determinant of the Jacobian are easy to compute. To achieve this, we
@@ -153,30 +159,36 @@ const Paper = props => {
                 non-linear function <InlineMath math='\mathcal{F}'/> (such as a shallow neural network) we define new
                 variables <InlineMath math='y_1, y_2'/> as follows:
             </p>
-            <BlockMath math='
-                \begin{aligned}
-                    y_1 &= x_1 + \mathcal{F}(x_2)\\
-                    y_2 &= x_2
-                \end{aligned}' />
+            <EquationLabel label={'3'}>
+                <BlockMath math='
+                    \begin{aligned}
+                        y_1 &= x_1 + \mathcal{F}(x_2)\\
+                        y_2 &= x_2
+                    \end{aligned}' />
+            </EquationLabel>
             <p>
                 This set of operations comprises the reversible block. Now notice how this block is easily invertable,
                 given <InlineMath math='y_1, y_2'/> we have the following inverse:
             </p>
-            <BlockMath math='
-                \begin{aligned}
-                    x_2 &= y_2\\
-                    x_1 &= y_1 - \mathcal{F}(y_2)
-                \end{aligned}' />
+            <EquationLabel label={'4'}>
+                <BlockMath math='
+                    \begin{aligned}
+                        x_2 &= y_2\\
+                        x_1 &= y_1 - \mathcal{F}(y_2)
+                    \end{aligned}' />
+            </EquationLabel>
             <p>
                 Furthermore, our Jacobian is trivial to compute;
                 concatenating <InlineMath math='x = x_1x_2'/> and <InlineMath math='y = y_1y_2'/> together, then
                 differentiating equation (3) yields:
             </p>
-            <BlockMath math='\frac{\partial y}{\partial x} = 
-                \begin{pmatrix}
-                    1 & \frac{\partial \mathcal{F}}{\partial x_2}\\
-                    0 & 1
-                \end{pmatrix}' />
+            <EquationLabel label={'5'}>
+                <BlockMath math='\frac{\partial y}{\partial x} = 
+                    \begin{pmatrix}
+                        1 & \frac{\partial \mathcal{F}}{\partial x_2}\\
+                        0 & 1
+                    \end{pmatrix}' />
+            </EquationLabel>
             <p>
                 We notice that this matrix is upper-triangular, and thus its determinant is computed as the sum along
                 the diagonal. However, these values will always be <InlineMath math='1'/>, therefore making the determinant of the Jacobian
