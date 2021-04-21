@@ -15,7 +15,7 @@ const absolutePath = path.join(__dirname, '..', 'interactive-report', 'build')
 app.use(express.static(absolutePath))
 // Route error handling (such as 404s) is built in to the front-end, so serve the React app for any page requested
 app.get("*", (_, res) => {
-    res.sendFile(path.join(__dirname, path.join(absolutePath, 'index.html')))
+    res.sendFile(path.join(absolutePath, 'index.html'))
 })
 
 // Start the server
