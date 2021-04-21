@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -16,9 +16,9 @@ const Citation = styled.div`
     flex-grow: 1;
 `
 
-const References = props => {
+const References = forwardRef((props, ref) => {
     return (
-        <>
+        <div ref={ref}>
             <h3>References</h3>
             {props.citations.map((citation, i) => (
                 <ReferenceWrapper key={i}>
@@ -28,10 +28,9 @@ const References = props => {
                     </Citation>
                 </ReferenceWrapper>
             ))}
-        </>
+        </div>
     )
-
-}
+})
 
 References.propTypes = {
     citations: PropTypes.arrayOf(PropTypes.node).isRequired,

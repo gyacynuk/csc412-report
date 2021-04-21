@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import Authors from '../../components/authors'
 import { BlockMath, InlineMath } from 'react-katex'
@@ -13,6 +13,11 @@ import simplePrWav from '../../assets/audio/simple-pr.wav'
 import complexPrWav from '../../assets/audio/complex-pr.wav'
 import References from '../../components/references'
 import { isMobile } from '../../theme/breakpoint'
+import SectionNavigator from '../../components/section-navigator'
+
+const PageWrapper = styled.div`
+    position: relative;
+`
 
 const Center = styled.div`
     width: 100%;
@@ -56,8 +61,38 @@ const DoublePane = styled.div`
 `
 
 const Paper = props => {
+    const sections = [
+        {
+            name: 'Abstract',
+            level: 1,
+            ref: useRef(),
+        },
+        {
+            name: '1 Background',
+            level: 1,
+            ref: useRef(),
+        },
+        {
+            name: '2 Methods',
+            level: 1,
+            ref: useRef(),
+        },
+        {
+            name: '2.1 Dataset and Preprocessing',
+            level: 2,
+            ref: useRef(),
+        },
+        {
+            name: 'References',
+            level: 1,
+            ref: useRef(),
+        },
+    ]
+
     return (
-        <>
+        <PageWrapper>
+            <SectionNavigator sections={sections}/>
+
             <h1>NICE Music Synthesis</h1>
 			<h4>CSC412 Final Project</h4>
 
@@ -69,7 +104,7 @@ const Paper = props => {
 
 			
             <AbstractWrapper>
-                <AbstractHeader>Abstract</AbstractHeader>
+                <AbstractHeader ref={sections[0].ref}>Abstract</AbstractHeader>
                 <p>
                     We propose an application of Non-linear Independent Component Estimation (NICE) for music synthesis. 
                     This technique has seen success when utilized for image synthesis, however we have seen no evidence of
@@ -83,7 +118,7 @@ const Paper = props => {
             </AbstractWrapper>
 		
 
-            <SectionHeader num='1' header='Background'/>
+            <SectionHeader num='1' header='Background' ref={sections[1].ref}/>
 			<p>
                 Given a dataset of musical compositions <InlineMath math='X'/> consisting of <InlineMath math='N'/> D-dimensional
                 samples <InlineMath math='x'/>, <InlineMath math='x \in \mathbb{R}^D'/>, we want to learn a
@@ -177,13 +212,13 @@ const Paper = props => {
             </p>
 
 
-            <SectionHeader num='2' header='Methods'/>
+            <SectionHeader num='2' header='Methods' ref={sections[2].ref}/>
             <p>
                 We now introduce our approach to music generation via NICE, implemented
                 using <em>Reversible Residual Networks</em> (RevNets). 
             </p>
 
-            <SectionSubHeader num='2.1' header='Dataset and Preprocessing'/>
+            <SectionSubHeader num='2.1' header='Dataset and Preprocessing' ref={sections[3].ref}/>
             <p>
                 Our dataset is derived from the <a href='https://colinraffel.com/projects/lmd/'>Lakh MIDI Dataset</a> [1]
                 - a collection of 174,154 multitrack pianorolls in MIDI format.
@@ -208,7 +243,7 @@ const Paper = props => {
 
 
             <br/>
-            <References citations={[
+            <References ref={sections[sections.length-1].ref} citations={[
                 <span>
                     Colin Raffel. "Learning-Based Methods for Comparing Sequences, with Applications to Audio-to-MIDI
                     Alignment and Matching". <em>PhD Thesis</em>, 2016.
@@ -219,7 +254,7 @@ const Paper = props => {
                 </span>
             ]}/>
             
-        </>
+        </PageWrapper>
     )
 }
 

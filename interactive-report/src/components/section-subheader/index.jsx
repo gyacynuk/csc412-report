@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -12,13 +12,13 @@ const NumWrapper = styled.div`
     width: 64px
 `
 
-const SectionSubHeader = props => {
+const SectionSubHeader = forwardRef(({ num, header, ...rest }, ref) => {
     return (
-        <div>
-            <SmallH3><NumWrapper>{props.num}</NumWrapper>{props.header}</SmallH3>
+        <div ref={ref} {...rest}>
+            <SmallH3><NumWrapper>{num}</NumWrapper>{header}</SmallH3>
         </div>  
     )
-}
+})
 
 SectionSubHeader.propTypes = {
     header: PropTypes.string.isRequired,
