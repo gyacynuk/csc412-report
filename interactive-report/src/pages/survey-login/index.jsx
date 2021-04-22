@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 import Button from '../../components/button'
 import { useHistory, useLocation } from 'react-router'
@@ -52,7 +53,7 @@ const ErrorMessage = styled.div`
 
 const useQuery = () => new URLSearchParams(useLocation().search)
 
-const SurveyLogin = props => {
+const SurveyLogin = ({ setUser }) => {
     const query = useQuery()
     const history = useHistory()
     const [ form, setForm ] = useState({
@@ -72,6 +73,20 @@ const SurveyLogin = props => {
     const [ error, setError] = useState(query.has('expired')
         ? 'Your session has expired, please enter your invitation code again'
         : '')
+
+    const handlePaste = e => {
+        e.preventDefault()
+        
+        const code = e.clipboardData.getData('Text')
+        const tokens = code.split('-')
+        const updatedForm = { ...form }
+
+        for (let i = 0; i < Math.min(tokens.length, 3); i ++) {
+            updatedForm[i].value = tokens[i]
+        }
+
+        setForm(updatedForm)
+    }
 
     const handleChange = i => e => {
         if (e?.nativeEvent?.data === '-') {
@@ -99,8 +114,16 @@ const SurveyLogin = props => {
         const password = [form[0].value, form[1].value, form[2].value].map(val => val.trim().toLowerCase()).join('-')
         Api.Auth.authenticate(password)
             .then(res => {
-                if (res.success) {
-                    history.push('/survey/1')
+                const { success, user, errorMessage } = res
+                if (success) {
+                    setUser(user)
+                    if (user.isAdmin) {
+                        history.push('/dashboard')
+                    } else {
+                        history.push('/survey/start')
+                    }
+                } else {
+                    setError(errorMessage)
                 }
             })
     }
@@ -143,7 +166,7 @@ const SurveyLogin = props => {
             { error && <ErrorMessage>{error}</ErrorMessage> }
 
             <InputWrapper onKeyDown={e => e.key === 'Enter' && submitForm(form, history)}>
-                <Input ref={form[0].ref} value={form[0].value} onChange={handleChange(0)} expand/>
+                <Input ref={form[0].ref} value={form[0].value} onChange={handleChange(0)} onPaste={handlePaste} expand/>
                 <Dash>-</Dash>
                 <Input ref={form[1].ref} value={form[1].value} onChange={handleChange(1)} expand/>
                 <Dash>-</Dash>
@@ -156,6 +179,10 @@ const SurveyLogin = props => {
             
         </PageWrapper>
     )
+}
+
+SurveyLogin.propTypes = {
+    setUser: PropTypes.func.isRequired,
 }
 
 export default SurveyLogin

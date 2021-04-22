@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import styled, { withTheme } from 'styled-components'
 import Button from '../../components/button'
 import Input from '../../components/input'
 import { errorToast } from '../../utils'
-import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, ResponsiveContainer } from 'recharts';
+import Api from '../../api'
 
 const PageWrapper = styled.div`
     position: relative;
@@ -18,9 +19,6 @@ const ChartWrapper = styled.div`
     width: 100%;
     height: 300px;
     flex: ${props => props.flexGrow || 1} 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 `
 
 const ChartPanel = styled.div`
@@ -37,17 +35,23 @@ const ChartPanel = styled.div`
 
 const Dashboard = props => {
     const [ inviteCode, setInviteCode ] = useState('')
+    const [ chartData, setChartData ] = useState({ generatedInvites: 0, completedSurveys: 0 })
+
+    useEffect(() => {
+        Api.Stats.getChartStats()
+            .then(stats => setChartData(stats))
+    }, [])
    
-    const data = [
+    const data = useMemo(() => ([
         {
             name: 'Generated',
-            count: 12,
+            count: chartData.generatedInvites,
         },
         {
-            name: 'Activated',
-            count: 4,
+            name: 'Completed',
+            count: chartData.completedSurveys,
         },
-    ];
+    ]), [ chartData ])
 
     const copyCodeToClipboard = () => {
         navigator.clipboard.writeText(inviteCode)
@@ -57,7 +61,11 @@ const Dashboard = props => {
     }
 
     const generateInviteCode = () => {
-
+        Api.Invite.generateInviteCode()
+            .then(res => {
+                setInviteCode(res.username)
+                setChartData(data => ({ ...data, generatedInvites: data.generatedInvites + 1 }))
+            })
     }
 
     return (
@@ -75,20 +83,12 @@ const Dashboard = props => {
             <h3>Statistics</h3>
             <ChartPanel>
                 <ChartWrapper flexGrow={1}>
-                <div><strong>Generation vs Activation</strong></div>  
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={data} label='asa'>
-                            <Tooltip />
-                            <Bar dataKey="count" fill={props.theme.palette.primary} />
-                            <XAxis dataKey="name" />
-                        </BarChart>
-                    </ResponsiveContainer>
+                    <div><strong>Total Invites Generated:</strong> {chartData.generatedInvites}</div>
+                    <div><strong>Total Surveys Completed:</strong> {chartData.completedSurveys}</div>
                 </ChartWrapper>
-                <ChartWrapper flexGrow={2}>
-                <div><strong>Activation by Day</strong></div>  
+                <ChartWrapper flexGrow={1}>
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={data}>
-                            <Tooltip />
                             <Bar dataKey="count" fill={props.theme.palette.primary} />
                             <XAxis dataKey="name" />
                         </BarChart>

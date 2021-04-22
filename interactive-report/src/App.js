@@ -16,7 +16,7 @@ import 'katex/dist/katex.min.css'
 
 
 function App() {
-	const [ user, setUser ] = useState({ isAdmin: true })
+	const [ user, setUser ] = useState({})
 
 	return (
 		<ThemeProvider theme={lightTheme}>
@@ -27,8 +27,11 @@ function App() {
 				<Router>
 					<Switch>
 						<Route path='/' exact component={Paper} />
-						<Route path='/survey' exact component={SurveyLogin} />
-						<ProtectedRoute path='/dashboard' exact user={user} component={Dashboard}/>
+						<Route path='/survey-login' exact>
+							<SurveyLogin setUser={setUser}/>
+						</Route>
+						<ProtectedRoute path='/survey' exact user={user} component={Dashboard}/>
+						<ProtectedRoute path='/dashboard' exact user={user} adminOnly={true} component={Dashboard}/>
 
 						{/* Error pages */}
 						<Route path='/403' exact>
