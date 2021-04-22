@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import styled, { withTheme } from 'styled-components'
 import Button from '../../components/button'
 import Input from '../../components/input'
-import { errorToast } from '../../utils'
+import { errorToast, successToast } from '../../utils'
 import { BarChart, Bar, XAxis, ResponsiveContainer } from 'recharts';
 import Api from '../../api'
 
@@ -54,7 +54,15 @@ const Dashboard = props => {
     ]), [ chartData ])
 
     const copyCodeToClipboard = () => {
+        if (!inviteCode) {
+            errorToast('No invite code to copy')
+            return
+        }
+
         navigator.clipboard.writeText(inviteCode)
+            .then(() => {
+                successToast('Copied to clipboard')
+            })
             .catch(error => {
                 errorToast('Unable to copy to clipboard')
             })
