@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components'
 import Button from '../../components/button'
 import { useHistory, useLocation } from 'react-router'
 import Api from '../../api'
+import Input from '../../components/input'
 
 const PageWrapper = styled.div`
     position: relative;
@@ -19,22 +20,6 @@ const ButtonWrapper = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 16px;
-`
-
-const Input = styled.input`
-    flex-basis: 0;
-    flex-grow: 1;
-
-    width: 0;
-    padding: 8px 16px;
-    background-color: ${({theme}) => theme.palette.background};
-    color: ${({theme}) => theme.palette.text.regular};
-    border: 1px solid ${({theme}) => theme.palette.text.heavy};
-    border-radius: 8px;
-    outline: none;
-
-    font-family: ${({theme}) => theme.typography.fontFamily};
-    font-size: 1rem;
 `
 
 const Dash = styled.span`
@@ -158,11 +143,11 @@ const SurveyLogin = props => {
             { error && <ErrorMessage>{error}</ErrorMessage> }
 
             <InputWrapper onKeyDown={e => e.key === 'Enter' && submitForm(form, history)}>
-                <Input ref={form[0].ref} value={form[0].value} onChange={handleChange(0)}/>
+                <Input ref={form[0].ref} value={form[0].value} onChange={handleChange(0)} expand/>
                 <Dash>-</Dash>
-                <Input ref={form[1].ref} value={form[1].value} onChange={handleChange(1)}/>
+                <Input ref={form[1].ref} value={form[1].value} onChange={handleChange(1)} expand/>
                 <Dash>-</Dash>
-                <Input ref={form[2].ref} value={form[2].value} onChange={handleChange(2)}/>
+                <Input ref={form[2].ref} value={form[2].value} onChange={handleChange(2)} expand/>
             </InputWrapper>
 
             <ButtonWrapper>
