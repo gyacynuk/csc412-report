@@ -1,6 +1,7 @@
 const express = require('express')
 const session = require('express-session')
 const cors = require('cors')
+const enforce = require('express-sslify')
 const path = require('path')
 const MongoStore = require('connect-mongo')
 
@@ -20,6 +21,9 @@ const statsRoutes = require('./routes/stats')
 
 // Create Express app
 const app = express()
+
+// Force SSL to be used
+app.use(enforce.HTTPS({ trustProtoHeader: true }))
 
 // Configure parsing
 app.use(express.json())
