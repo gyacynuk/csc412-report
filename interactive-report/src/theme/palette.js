@@ -8,6 +8,10 @@ export const lightPalette = {
         regular: '#333333',
         light: '#777777',
     },
+    warning: {
+        regular: '#881010',
+        light: '#F6A6A6'
+    }
 }
 
 export const darkPalette = {
