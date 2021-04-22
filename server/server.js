@@ -29,10 +29,13 @@ app.use(express.urlencoded({ extended: true }))
 if (PROD) {
     app.use(cors({
         credentials: true,
-        origin: ['https://nice-music-synthesis.herokuapp.com', 'https//nice-music-synthesis.herokuapp.com']
+        origin: true
     }))
     // Enabling CORS Pre-Flight
-    app.options('*', cors())
+    app.options('*', cors({
+        credentials: true,
+        origin: true
+    }))
 } else {
     app.use(cors({
         credentials: true,
