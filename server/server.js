@@ -26,7 +26,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Allow CORS if not prod
-if (!PROD) {
+if (PROD) {
+    app.use(cors({
+        credentials: true,
+        origin: 'https://nice-music-synthesis.herokuapp.com'
+    }))
+} else {
     app.use(cors({
         credentials: true,
         origin: 'http://localhost:3000'
