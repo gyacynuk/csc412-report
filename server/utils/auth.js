@@ -1,13 +1,4 @@
-const bcrypt = require('bcryptjs')
 const { User } = require('../db/models/user')
-
-// Compare a raw text password with it's hash asynchronously
-const comparePasswordAsync = (raw, hash) =>
-    new Promise((resolve, reject) => {
-        bcrypt.compare(raw, hash, (err, res) => {
-            err ? reject(err) : resolve(res)
-        })
-    })
 
 // Middleware for authentication of resources
 const authenticate = (req, res, next) => {
@@ -28,7 +19,17 @@ const authenticate = (req, res, next) => {
     }
 }
 
+// Middleware for authentication of resources
+const adminOnly = (req, res, next) => {
+    if (req?.user?.isAdmin) {
+        next()
+    }
+    else {
+        res.status(403).send("Forbidden")
+    }
+}
+
 module.exports = {
-    comparePasswordAsync,
     authenticate,
+    adminOnly,
 }

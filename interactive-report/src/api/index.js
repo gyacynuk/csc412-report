@@ -1,5 +1,7 @@
 import axios from 'axios'
 import AuthApi from './auth'
+import InviteApi from './invite'
+import StatsApi from './stats'
 import { errorToast } from '../utils'
 
 // Configure API base URL based on environment
@@ -12,7 +14,7 @@ axios.defaults.withCredentials = true
 axios.defaults.timeout = 5 * 1000
 axios.interceptors.response.use(undefined, error => {
     if (error.response.status === 401 && error.response.data === 'Expired Session') {
-        window.location.href = '/survey?expired'
+        window.location.href = '/survey-login?expired'
     }
     else if (error.response.status === 401) {
         window.location.href = '/survey'
@@ -28,5 +30,7 @@ axios.interceptors.response.use(undefined, error => {
 
 const Api = {
     Auth: AuthApi,
+    Invite: InviteApi,
+    Stats: StatsApi,
 }
 export default Api
