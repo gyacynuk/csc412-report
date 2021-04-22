@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import styled, { withTheme } from 'styled-components'
 import Button from '../../components/button'
 import Input from '../../components/input'
