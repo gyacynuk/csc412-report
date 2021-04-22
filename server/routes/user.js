@@ -10,6 +10,10 @@ const { handleMongoError } = require('../utils/mongo')
 // Mongo and Mongoose
 const { User } = require('../db/models/user')
 
+router.get('/session', async (req, res) => {
+    res.send({ user: req.user })
+})
+
 router.post('/create', async (req, res) => {
     const { username } = req.body
 
@@ -38,7 +42,7 @@ router.post('/generateInvite', async (req, res) => {
             dateCreated: new Date(),
         })
         await user.save()
-        
+
         res.status(200).send({ username })
     } catch (error) {
         if (!handleMongoError(error)) {

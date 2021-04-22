@@ -2,7 +2,7 @@ import axios from 'axios'
 import { BASE_URL } from '.'
 
 function authenticate(username) {
-    const uninterceptedAxiosInstance = axios.create();
+    const uninterceptedAxiosInstance = axios.create()
     return uninterceptedAxiosInstance.post(`${BASE_URL}/api/auth/login`, { username })
         .then(res => {
             const { user, hasCompletedSurvey } = res.data

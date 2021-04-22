@@ -30,8 +30,8 @@ function App() {
 						<Route path='/survey-login' exact>
 							<SurveyLogin setUser={setUser}/>
 						</Route>
-						<ProtectedRoute path='/survey' exact user={user} component={Dashboard}/>
-						<ProtectedRoute path='/dashboard' exact user={user} adminOnly={true} component={Dashboard}/>
+						<ProtectedRoute path='/survey' exact user={user} setUser={setUser} component={Dashboard}/>
+						<ProtectedRoute path='/dashboard' exact user={user} setUser={setUser} adminOnly={true} component={Dashboard}/>
 
 						{/* Error pages */}
 						<Route path='/403' exact>

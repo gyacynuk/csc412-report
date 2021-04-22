@@ -2,6 +2,7 @@ import axios from 'axios'
 import AuthApi from './auth'
 import InviteApi from './invite'
 import StatsApi from './stats'
+import UserApi from './user'
 import { errorToast } from '../utils'
 
 // Configure API base URL based on environment
@@ -32,5 +33,6 @@ const Api = {
     Auth: AuthApi,
     Invite: InviteApi,
     Stats: StatsApi,
+    User: UserApi,
 }
 export default Api
