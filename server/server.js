@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }))
 if (PROD) {
     app.use(cors({
         credentials: true,
-        origin: 'https://nice-music-synthesis.herokuapp.com'
+        origin: ['https://nice-music-synthesis.herokuapp.com', 'https//nice-music-synthesis.herokuapp.com']
     }))
 } else {
     app.use(cors({
