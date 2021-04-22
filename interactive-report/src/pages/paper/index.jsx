@@ -15,29 +15,31 @@ import complexPrWav from '../../assets/audio/complex-pr.wav'
 import References from '../../components/references'
 import SectionNavigator from '../../components/section-navigator'
 import EquationLabel from '../../components/equation-label'
-import { useHistory } from 'react-router'
 
-const NavBar = styled.div`
-    width: 100%;
-    height: 64px;
-    margin-top: 16px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+const PageWrapper = styled.div`
+    position: relative;
+    margin: 32px;
 `
+
 const IconButton = styled.div`
     margin-left: 16px;
     cursor: pointer;
 `
 const GithubIcon = styled(GithubSVG)`
     width: 40px;
-    height: 40px;
+    height: 100%;
+    margin-top: -4px;
+
+    ${({theme}) => theme.isMobile`
+        height: 40px;
+        margin-top: 0;
+    `}
+`
+const HeaderWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
 `
 
-const PageWrapper = styled.div`
-    position: relative;
-    margin-bottom: 32px;
-`
 const Center = styled.div`
     width: 100%;
     display: flex;
@@ -80,7 +82,6 @@ const DoublePane = styled.div`
 `
 
 const Paper = props => {
-    const history = useHistory()
     const sections = [
         {
             name: 'Abstract',
@@ -113,13 +114,13 @@ const Paper = props => {
         <PageWrapper>
             <SectionNavigator sections={sections}/>
 
-            <NavBar>
+            <HeaderWrapper>
+                <h1>NICE Music Synthesis</h1>
                 <IconButton onClick={() => window.open('https://github.com/gyacynuk/csc412-report/tree/main/notebooks')}>
                     <GithubIcon />
                 </IconButton>
-            </NavBar>
-
-            <h1>NICE Music Synthesis</h1>
+            </HeaderWrapper>
+           
 			<h4>CSC412 Final Project</h4>
 
             <Authors authors={[
