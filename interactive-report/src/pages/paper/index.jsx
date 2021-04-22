@@ -5,7 +5,9 @@ import SectionHeader from '../../components/section-header'
 import SectionSubHeader from '../../components/section-subheader'
 import styled from 'styled-components'
 
+import { ReactComponent as GithubSVG } from '../../assets/images/github.svg'
 import { ReactComponent as RevBlockSVG } from '../../assets/images/revblock.svg'
+import pitchPlotImg from '../../assets/images/pitch-plot.png'
 import simplePrImg from '../../assets/images/simple-pr.png'
 import complexPrImg from '../../assets/images/complex-pr.png'
 import simplePrWav from '../../assets/audio/simple-pr.wav'
@@ -13,12 +15,29 @@ import complexPrWav from '../../assets/audio/complex-pr.wav'
 import References from '../../components/references'
 import SectionNavigator from '../../components/section-navigator'
 import EquationLabel from '../../components/equation-label'
+import { useHistory } from 'react-router'
+
+const NavBar = styled.div`
+    width: 100%;
+    height: 64px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+`
+const IconButton = styled.div`
+    margin-left: 16px;
+    cursor: pointer;
+`
+const GithubIcon = styled(GithubSVG)`
+    width: 40px;
+    height: 40px;
+`
 
 const PageWrapper = styled.div`
     position: relative;
-    margin: 32px 0;
+    margin-bottom: 32px;
 `
-
 const Center = styled.div`
     width: 100%;
     display: flex;
@@ -43,8 +62,8 @@ const RevBlockImg = styled(RevBlockSVG)`
 
 const Image = styled.img`
     width: 100%;
-    max-width: 500px;
     margin: 4px 0;
+    object-fit: contain;
 `
 
 const AudioWrapper = styled.div`
@@ -61,6 +80,7 @@ const DoublePane = styled.div`
 `
 
 const Paper = props => {
+    const history = useHistory()
     const sections = [
         {
             name: 'Abstract',
@@ -92,6 +112,12 @@ const Paper = props => {
     return (
         <PageWrapper>
             <SectionNavigator sections={sections}/>
+
+            <NavBar>
+                <IconButton onClick={() => window.open('https://github.com/gyacynuk/csc412-report/tree/main/notebooks')}>
+                    <GithubIcon />
+                </IconButton>
+            </NavBar>
 
             <h1>NICE Music Synthesis</h1>
 			<h4>CSC412 Final Project</h4>
@@ -234,6 +260,8 @@ const Paper = props => {
                 Our dataset is derived from the <a href='https://colinraffel.com/projects/lmd/'>Lakh MIDI Dataset</a> [1]
                 - a collection of 174,154 multitrack pianorolls in MIDI format.
             </p>
+
+            <Image src={pitchPlotImg}/>
 
             <DoublePane>
                 <Center>
