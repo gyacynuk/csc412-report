@@ -31,6 +31,8 @@ if (PROD) {
         credentials: true,
         origin: ['https://nice-music-synthesis.herokuapp.com', 'https//nice-music-synthesis.herokuapp.com']
     }))
+    // Enabling CORS Pre-Flight
+    app.options('*', cors())
 } else {
     app.use(cors({
         credentials: true,
