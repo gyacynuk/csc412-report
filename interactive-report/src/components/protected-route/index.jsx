@@ -15,7 +15,6 @@ const ProtectedRoute = ({ user, setUser, adminOnly, component: Component, childr
 		else {
 			Api.User.getSessionUserNoInterceptor()
 				.then(res => {
-                    console.log(res)
 					setTimeout(() => {
                         setUser(res.user)
                         if (adminOnly && !res?.user?.isAdmin) {
