@@ -120,7 +120,7 @@ const SurveyLogin = ({ setUser }) => {
                     if (user.isAdmin) {
                         history.push('/dashboard')
                     } else {
-                        history.push('/survey/start')
+                        history.push('/survey')
                     }
                 } else {
                     setError(errorMessage)
@@ -143,16 +143,17 @@ const SurveyLogin = ({ setUser }) => {
 
                     <h3>Purpose</h3>
                     <p>
-                        We are interested in evaluating and comparing the the quality of music produced by several different
-                        machine learning models. By participating in this survey, your results will allow us to determine the
-                        best model in a statistically significant fashion.
+                        We are interested in evaluating and comparing the the quality of music produced by
+                        machine learning models. By participating in this survey, your results will allow us to
+                        evaluate the performance of our models extrinsically, in a statistically significant fashion.
                     </p>
 
                     <h3>Confidentiality</h3>
                     <p>
                         If you choose to participate in the survey, your results will be saved to a database and will only be
                         identifiable via your randomly generated 3-word participation code. Aside from your responses to the
-                        survey questions, no other data will be collected or stored.
+                        survey questions, no other data will be collected or stored. Finally, only aggregate statistics
+                        derived from your responses will be published to the web.
                     </p>
 
                     <h3>Login</h3>
@@ -174,7 +175,7 @@ const SurveyLogin = ({ setUser }) => {
             </InputWrapper>
 
             <ButtonWrapper>
-                <Button label={'Start'} width={'128px'} onClick={() => submitForm(form, history)}/>
+                <Button label={'Activate Code'} onClick={() => submitForm(form, history)}/>
             </ButtonWrapper>
             
         </PageWrapper>

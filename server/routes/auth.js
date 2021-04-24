@@ -7,7 +7,6 @@ const { handleMongoError } = require('../utils/mongo')
 
 // Mongo and Mongoose
 const { User } = require('../db/models/user')
-const { Survey } = require('../db/models/survey')
 
 // Login, creating a new session
 router.post('/login', async (req, res) => {
@@ -28,13 +27,9 @@ router.post('/login', async (req, res) => {
             return
         }
 
-        // Load in survey record
-        const survey = await Survey.findOne({ username })
-        const hasCompletedSurvey = !!survey
-
         // The user was successfully authenticated, return the user model
         req.session.user = user._id
-        res.send({ user, hasCompletedSurvey })
+        res.json({ user })
     } catch (error) {
         if (!handleMongoError(error)) {
             log(error)

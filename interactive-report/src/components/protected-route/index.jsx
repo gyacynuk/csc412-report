@@ -42,7 +42,7 @@ const ProtectedRoute = ({ user, setUser, adminOnly, component: Component, childr
 ProtectedRoute.propTypes = {
     user: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
-    component: PropTypes.object.isRequired,
+    component: PropTypes.any.isRequired,
 
     adminOnly: PropTypes.bool,
 }

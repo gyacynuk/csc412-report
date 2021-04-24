@@ -1,15 +1,16 @@
 import axios from 'axios'
 import { BASE_URL } from '.'
+import { errorToast } from '../utils'
 
 function authenticate(username) {
     const uninterceptedAxiosInstance = axios.create()
     return uninterceptedAxiosInstance.post(`${BASE_URL}/api/auth/login`, { username })
         .then(res => {
-            const { user, hasCompletedSurvey } = res.data
-            if (!user.isAdmin && hasCompletedSurvey) {
+            const { user } = res.data
+            if (!user.isAdmin && user.completedSurvey) {
                 return {
                     success: false,
-                    errorMessage: 'You have already submitted your survey results'
+                    errorMessage: 'You have already completed the survey'
                 }
             }
             return {
@@ -19,7 +20,10 @@ function authenticate(username) {
         })
         .catch(error => {
             let errorMessage = 'Something went wrong'
-            if (error.response.status === 401) {
+            if (error.response === undefined) {
+                errorToast('Cannot connect to server')
+            }
+            else if (error.response.status === 401) {
                 errorMessage = 'Invalid invitation code'
             }
             return {

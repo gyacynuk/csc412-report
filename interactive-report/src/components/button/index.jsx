@@ -9,26 +9,39 @@ const StyledButton = styled.button`
     padding: 8px 16px;
 
     background-color: ${({theme}) => theme.palette.background};
-    color: ${({theme}) => theme.palette.text.regular};
-    border: 1px solid ${({theme}) => theme.palette.text.heavy};
     border-radius: 8px;
-
+    ${props => props.disabled
+        ? `
+            color: ${props.theme.palette.text.light};
+            border: 1px solid ${props.theme.palette.text.light};
+            cursor: not-allowed;
+        `
+        : `
+            color: ${props.theme.palette.text.regular};
+            border: 1px solid ${props.theme.palette.text.heavy};
+            cursor: pointer;
+        `
+    }
+    
     font-family: ${({theme}) => theme.typography.fontFamily};
     font-size: 1rem;
 
     outline: none;
-    cursor: pointer;
     transition: all 400ms ease;
 
     &:hover {
-        background-color: ${({theme}) => theme.palette.text.regular};
-        color: ${({theme}) => theme.palette.background};
+        background-color: ${props => props.disabled ?
+            props.theme.palette.background
+            : props.theme.palette.text.regular};
+        color: ${props => props.disabled
+            ? props.theme.palette.text.light
+            : props.theme.palette.background};
     }
 `
 
-const Button = ({ label, onClick, ...rest }) => {
+const Button = ({ label, onClick, disabled, ...rest }) => {
     return (
-        <StyledButton onClick={onClick} {...rest}>
+        <StyledButton onClick={() => !disabled && onClick()} disabled={disabled} {...rest}>
             {label}
         </StyledButton>
     )
@@ -41,6 +54,7 @@ Button.propTypes = {
     width: PropTypes.string,
     height: PropTypes.string,
     margin: PropTypes.string,
+    disabled: PropTypes.bool,
 }
 
 export default Button

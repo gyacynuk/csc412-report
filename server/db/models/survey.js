@@ -12,6 +12,10 @@ const SurveySchema = new mongoose.Schema({
     responses: {
         type: [
             new mongoose.Schema({
+                track: {
+                    type: String,
+                    required: true
+                },
                 source: {
                     type: String,
                     required: true
@@ -20,7 +24,11 @@ const SurveySchema = new mongoose.Schema({
                     type: Boolean,
                     required: true
                 },
-                actual: {
+                answer: {
+                    type: Boolean,
+                    required: true
+                },
+                isCorrect: {
                     type: Boolean,
                     required: true
                 }

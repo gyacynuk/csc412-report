@@ -18,7 +18,7 @@ import EquationLabel from '../../components/equation-label'
 
 const PageWrapper = styled.div`
     position: relative;
-    margin: 32px;
+    margin: 32px 0;
 `
 
 const IconButton = styled.div`

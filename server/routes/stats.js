@@ -36,7 +36,7 @@ router.get('/chart', async (req, res) => {
         ])
         const completedSurveys = completedSurveysQuery?.[0]?.count || 0
 
-        res.send({ generatedInvites, completedSurveys })
+        res.json({ generatedInvites, completedSurveys })
     } catch (error) {
         if (!handleMongoError(error)) {
             log(error)

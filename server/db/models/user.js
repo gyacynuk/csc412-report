@@ -12,6 +12,10 @@ const UserSchema = new mongoose.Schema({
     dateCreated: {
         type: Date,
         required: true
+    },
+    completedSurvey: {
+        type: Boolean,
+        default: false,
     }
 })
 

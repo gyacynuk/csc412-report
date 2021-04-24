@@ -13,6 +13,7 @@ import Dashboard from './pages/dashboard'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'katex/dist/katex.min.css'
+import Survey from './pages/survey'
 
 
 function App() {
@@ -27,10 +28,10 @@ function App() {
 				<Router>
 					<Switch>
 						<Route path='/' exact component={Paper} />
-						<Route path='/survey-login' exact>
+						<Route path='/login' exact>
 							<SurveyLogin setUser={setUser}/>
 						</Route>
-						<ProtectedRoute path='/survey' exact user={user} setUser={setUser} component={Dashboard}/>
+						<ProtectedRoute path='/survey' exact user={user} setUser={setUser} component={Survey}/>
 						<ProtectedRoute path='/dashboard' exact user={user} setUser={setUser} adminOnly={true} component={Dashboard}/>
 
 						{/* Error pages */}

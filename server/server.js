@@ -22,9 +22,6 @@ const statsRoutes = require('./routes/stats')
 // Create Express app
 const app = express()
 
-// Force SSL to be used
-app.use(enforce.HTTPS({ trustProtoHeader: true }))
-
 // Configure parsing
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -40,6 +37,8 @@ if (PROD) {
         credentials: true,
         origin: true
     }))
+    // Force SSL to be used
+    app.use(enforce.HTTPS({ trustProtoHeader: true }))
 } else {
     app.use(cors({
         credentials: true,
@@ -64,7 +63,7 @@ app.use(session({
 
 // API routes
 app.use('/api/auth', mongoConnectionCheck, authRoutes)
-app.use('/api/user', mongoConnectionCheck, authenticate, adminOnly, userRoutes)
+app.use('/api/user', mongoConnectionCheck, authenticate, userRoutes)
 app.use('/api/stats', mongoConnectionCheck, authenticate, adminOnly, statsRoutes)
 
 // Static routes of webpages
