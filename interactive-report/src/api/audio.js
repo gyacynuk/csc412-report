@@ -15,7 +15,14 @@ import vae2 from '../assets/audio/survey/vae-2.wav'
 import vae3 from '../assets/audio/survey/vae-3.wav'
 import vae4 from '../assets/audio/survey/vae-4.wav'
 
-function loadSurveyTracks() {
+import rev0 from '../assets/audio/survey/rev-0.wav'
+import rev1 from '../assets/audio/survey/rev-1.wav'
+import rev2 from '../assets/audio/survey/rev-2.wav'
+import rev3 from '../assets/audio/survey/rev-3.wav'
+import rev4 from '../assets/audio/survey/rev-4.wav'
+
+
+function loadSurveyTracks(shuffle) {
     const createSurveyModels = (srcs, source, expected) => srcs.map(
         (src, i) => ({
             src,
@@ -27,8 +34,10 @@ function loadSurveyTracks() {
 
     const shuffleInPlace = array => {
         for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+            const j = Math.floor(Math.random() * (i + 1))
+            const tmp = array[i]
+            array[i] = array[j]
+            array[j] = tmp
         }
     }
 
@@ -51,10 +60,20 @@ function loadSurveyTracks() {
         vae3,
         vae4,
     ], 'vae', false)
+    const revTracks = createSurveyModels([
+        rev0,
+        rev1,
+        rev2,
+        rev3,
+        rev4,
+    ], 'rev', false)
+    const allTracks = [ ...trainingTracks, ...vaeTracks, ...revTracks ]
     
-    const allTracks = [ ...trainingTracks, ...vaeTracks ]
-    shuffleInPlace(allTracks)
-    return [ allTracks[1], allTracks[2], allTracks[3] ]
+    if (shuffle) {
+        shuffleInPlace(allTracks)
+    }
+    
+    return allTracks
 }
 
 const AudioApi = {

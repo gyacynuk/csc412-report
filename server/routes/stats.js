@@ -36,7 +36,49 @@ router.get('/chart', async (req, res) => {
         ])
         const completedSurveys = completedSurveysQuery?.[0]?.count || 0
 
-        res.json({ generatedInvites, completedSurveys })
+        const trackResultsQuery = await Survey.aggregate([
+            { $unwind: '$responses' },
+            {
+                $group: {
+                    _id: '$responses.track',
+                    correct: { 
+                        $sum: {
+                            $cond: [
+                                { $eq: [ '$responses.isCorrect', true ] }, 
+                                1, 
+                                0
+                            ]
+                        }
+                    },
+                    total: { $sum: 1  }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ])
+        const trackResults = Object.fromEntries(trackResultsQuery.map(item => [ item._id, item ]))
+
+        const totalResultsQuery = await Survey.aggregate([
+            { $unwind: '$responses' },
+            {
+                $group: {
+                    _id: '$responses.source',
+                    correct: { 
+                        $sum: {
+                            $cond: [
+                                { $eq: [ '$responses.isCorrect', true ] }, 
+                                1, 
+                                0
+                            ]
+                        }
+                    },
+                    total: { $sum: 1  }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ])
+        const totalResults = Object.fromEntries(totalResultsQuery.map(item => [ item._id, item ]))
+
+        res.json({ generatedInvites, completedSurveys, trackResults, totalResults })
     } catch (error) {
         if (!handleMongoError(error)) {
             log(error)

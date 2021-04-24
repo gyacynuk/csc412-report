@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import styled from 'styled-components'
 import Api from '../../api'
 import Button from '../../components/button'
@@ -53,7 +53,8 @@ const Survey = props => {
     const [ step, setStep ] = useState('intro')
     const [ trackNum, setTrackNum ] = useState(1)
     const [ buttonDisabled, setButtonDisabled ] = useState(true)
-    const [ survey, setSurvey ] = useState(Api.Audio.loadSurveyTracks())
+    const initialSurvey = useMemo(() => Api.Audio.loadSurveyTracks(true), [])
+    const [ survey, setSurvey ] = useState(initialSurvey)
 
     const answerQuestion = choice => () => {
         const isHuman = choice === 'human'
@@ -61,8 +62,6 @@ const Survey = props => {
         updatedSurvey[trackNum-1].answer = isHuman
         updatedSurvey[trackNum-1].isCorrect = isHuman === updatedSurvey[trackNum-1].expected
         setSurvey(updatedSurvey)
-
-        console.log(updatedSurvey)
 
         const nextTrackNum = trackNum + 1
         if (trackNum === updatedSurvey.length) {    // trackNum is 1-indexed
@@ -113,7 +112,11 @@ const Survey = props => {
                     
 
                     <Center>
-                        <Audio src={survey[trackNum-1].src} controls autoPlay onEnded={() => setButtonDisabled(false)}/>
+                        <Audio
+                            src={survey[trackNum-1].src}
+                            autoPlay
+                            controls
+                            onEnded={() => setButtonDisabled(false)}/>
                     </Center>
                     
                     <Center>
@@ -135,9 +138,9 @@ const Survey = props => {
             {/* Thank you */}
             {step === 'thanks' && 
                 <>
-                    <h3>Thank you!</h3>
+                    <h3>Thank you</h3>
                     <p>
-                        Thank you for completing the survey, your responses have been recorded.
+                        Thank you for completing the survey! You scored {survey.map(s => s.isCorrect).filter(Boolean).length}/{survey.length}. Your responses have been recorded.
                     </p>
                 </>
             }
