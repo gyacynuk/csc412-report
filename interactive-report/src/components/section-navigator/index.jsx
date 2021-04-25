@@ -10,7 +10,7 @@ const LEVEL_WIDTH = {
 const MIN_LINE_WIDTH = '12px'
 const MAX_TEXT_WIDTH = '200px'
 const ROW_HEIGHT = '14px'
-const TRANSITION_DELAY = 40
+const TRANSITION_DELAY = 20
 
 const LineWrapper = styled.div`
     width: ${LEVEL_WIDTH[1]};
@@ -21,7 +21,7 @@ const Line = styled.div`
     width: ${props => LEVEL_WIDTH[props.level]};
     height: 3px;
     background-color: ${({theme}) => theme.palette.text.regular};
-    transition: 400ms ease;
+    transition: 300ms ease;
     border-radius 0 2px 2px 0;
     transition-delay: ${props => props.index * TRANSITION_DELAY}ms;
 `

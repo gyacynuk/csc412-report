@@ -18,13 +18,14 @@ import rev1 from '../../assets/images/rev-1.png'
 import rev3 from '../../assets/images/rev-3.png'
 import vae0 from '../../assets/images/vae-0.png'
 import vae1 from '../../assets/images/vae-1.png'
+import comparison from '../../assets/images/comparison.png'
 
 import simplePrWav from '../../assets/audio/simple-pr.wav'
 import complexPrWav from '../../assets/audio/complex-pr.wav'
 import rev1Wav from '../../assets/audio/survey/rev-1.wav'
 import rev3Wav from '../../assets/audio/survey/rev-3.wav'
 import vae0Wav from '../../assets/audio/survey/vae-0.wav'
-import vae1Wav from '../../assets/audio/survey/vae-1.wav'
+import vae1Wav from '../../assets/audio/survey/vae-3.wav'
 
 import References from '../../components/references'
 import SectionNavigator from '../../components/section-navigator'
@@ -101,6 +102,41 @@ const DoublePane = styled.div`
     ${({theme}) => theme.isMobile`
         flex-direction: column;
     `}
+`
+
+const TableWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    font-size: 0.8rem;
+`
+
+const TableInner = styled.div`
+    width: 80%;
+    max-width: 320px;
+    padding: 4px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 2px solid ${({theme}) => theme.palette.text.heavy};
+    border-bottom: 2px solid ${({theme}) => theme.palette.text.heavy};
+`
+
+const TableDivider = styled.div`
+    width: 100%;
+    height: 1px;
+    margin: 2px 0;
+    background-color: ${({theme}) => theme.palette.text.light};
+`
+
+const TableRow = styled.div`
+    width: 100%;
+    display: flex;  
+    justify-content: space-between;
+`
+
+const TableCell = styled.div`
+    width: 80px;
+    text-align: center;
 `
 
 const Paper = props => {
@@ -385,6 +421,7 @@ const Paper = props => {
                 for less than half of the bar's duration). At the end of this process we are left with 53,821 bars of
                 music that meet all of our criteria.
             </p>
+            <Image src={pitchPlotImg}/>
             <p>
                 The final preprocessing step is to reduce the dimensionality of our dataset. By analyzing the
                 distribution of played notes over our dataset we discovered both the lowest 20 and highest 20 pitches
@@ -392,7 +429,7 @@ const Paper = props => {
                 the top and bottom 20 rows from our pianorolls. This results in 8448-dimensional vectors once linearized,
                 a reduction of nearly a third when compared to its original size.
             </p>
-            <Image src={pitchPlotImg}/>
+            
             <p></p>
 
             <SectionSubHeader num='3.2' header='Reversible Residual Network' ref={sections[5].ref}/>
@@ -404,13 +441,13 @@ const Paper = props => {
                 where each block implements functions <InlineMath math='\mathcal{F}'/>, <InlineMath math='\mathcal{G}'/> (see <Reference onClick={() => scrollTo(sections[2].ref)}>Section 2</Reference>)
                 as a shallow, fully-connected neural network with 1 hidden layer, ReLU activation, and batch normalization.
             </p>
+            <Image src={lossPlot}/>
             <p>
                 We trained the network for 200 epochs using SGD with momentum (which we found outperformed ADAM for our
                 specific task), using a batch size of 256. Furthermore, we utilized a learning rate scheduler to anneal
                 the learning rate in the event of a plateau. Finally, due to the depth of the network, we relied on
                 gradient clipping to mitigate the exploding-gradient problem from occurring early-on in training.
             </p>
-            <Image src={lossPlot}/>
             <p></p>
 
             <SectionSubHeader num='3.3' header='Variational Autoencoder' ref={sections[6].ref}/>
@@ -472,7 +509,7 @@ const Paper = props => {
             </p>
             <p></p>
 
-            <SectionSubHeader num='4' header='Discussion' ref={sections[8].ref}/>
+            <SectionHeader num='4' header='Discussion' ref={sections[8].ref}/>
             <p>
                 It is clear that the RevNet is a powerful model, even capable of learning very complex transformations
                 from our data space of music tracks to a simple latent space. The generated samples that the model 
@@ -555,7 +592,7 @@ const Paper = props => {
             </DoublePane>
 
             <br/>
-            <SectionSubHeader num='5' header='Experiment' ref={sections[9].ref}/>
+            <SectionHeader num='5' header='Experiment' ref={sections[9].ref}/>
             <p>
                 To evaluate the ability of the RevNet as well as our baseline model of the VAE, we created a survey 
                 consisting of 20 samples of music, 10 of which were randomly drawn from the training set, as well as 5
@@ -564,23 +601,96 @@ const Paper = props => {
                 In order to ensure the participants had reasonable prior knowledge, they were informed that
                 "roughly half the tracks have been made by humans". Finally, the participant could listen to a track as
                 many times as they wanted, however once they selected a response they would be presented with the next
-                track and could not go back.
+                track and could not go back. You can try a mock survey <a href={'/guest-survey'} target='_blank'>here</a>.
+            </p>
+            <p>
+                The purpose of the survey was to extrinsically evaluate the efficacy of our model, determining if it
+                could create music samples that were high enough in quality that they would be indistinguishable
+                from a human-played sample. Furthermore, it allowed us to compare the two models, determining whether
+                the RevNet or VAE is better suited at music generation.
+            </p>
+            <p>
+                The survey had a total of 30 respondents who were invited to participate via a one-time use access code.
+                This ensures that all responses are high quality, and prevents a bad actor from polluting the results.
             </p>
 
-
+            <TableWrapper>
+                <div><strong>Table 1: Mean Scores</strong></div>
+            </TableWrapper>
+            <TableWrapper>
+                <TableInner>
+                    <div>Sample Type</div>
+                    <TableDivider/>
+                    <TableRow>
+                        <TableCell>Training</TableCell>
+                        <TableCell>VAE</TableCell>
+                        <TableCell>RevNet</TableCell>
+                    </TableRow>
+                    <TableDivider/>
+                    <TableRow>
+                        <TableCell>0.64</TableCell>
+                        <TableCell>0.58</TableCell>
+                        <TableCell><strong>0.56</strong></TableCell>
+                    </TableRow>
+                </TableInner>
+            </TableWrapper>
             
+            <br/>
+            <p>
+                The mean scores as seen in <strong>Table 1</strong> above indicate the proportion of correctly
+                classified tracks from each source. We see that the samples from the RevNet were misclassified more
+                often than those coming from the VAE, indicating that survey participants mistook these tracks for 
+                being human generated 44\% of the time (despite only 42% of the time with the VAE). While the data
+                suggests that the RevNet is the better model, unfortunately there is not enough data to draw a
+                statistically significant conclusion.
+            </p>
 
-            <SectionSubHeader num='6' header='Conclusion' ref={sections[10].ref}/>
+            <Image src={comparison}/>
+            <p></p>
+            
+            <SectionHeader num='6' header='Conclusion' ref={sections[10].ref}/>
+            <p>
+                We demonstrated that Non-linear Independent Component Estimation (NICE) implemented via a Reversible
+                Residual Network is a valid technique for the task of music generation. By comparing this technique with
+                a basic Variational Autoencoder we have shown it to be just as capable, if not more, in this domain.
+                However, both models can be susceptible to the quality of the data used for training. Finally,
+                through the use of a closed survey, we were able to measure and quantify the quality of the music 
+                produced by our model. 
+            </p>
 
             <br/>
             <References ref={sections[sections.length-1].ref} citations={[
+                <span>
+                    Lars Ruthotto and Eldad Haber. An introduction to deep generative modeling, 2021.
+                </span>,
+                <span>
+                    Laurent Dinh, David Krueger, and Yoshua Bengio. Nice: Non-linear independent components estimation, 2015.
+                </span>,
+                <span>
+                    Li-Chia Yang Hao-Wen Dong, Wen-Yi Hsiao and Yi-Hsuan Yang. Musegan: Multi-track sequential generative adversarial networks for symbolic music generation and accompaniment. <em>32nd AAAI Conferenceon Artificial Intelligence (AAAI)</em>, 2018.
+                </span>,
                 <span>
                     Colin Raffel. "Learning-Based Methods for Comparing Sequences, with Applications to Audio-to-MIDI
                     Alignment and Matching". <em>PhD Thesis</em>, 2016.
                 </span>,
                 <span>
-                    Laurent Dinh, David Krueger, and Yoshua Bengio. Nice: Non-linear independent components estimation,
-                    2015.
+                    Diederik P. Kingma and Max Welling.  An introduction to variational autoencoders. <em>Foundations and Trends<sup>®</sup> in Machine Learning</em>, 12(4):307–392, 2019.
+                </span>,
+                <span>
+                    Aidan N. Gomez, Mengye Ren, Raquel Urtasun, and Roger B. Grosse. The reversible residual network: Backpropagation without storing activations, 2017.
+                </span>,
+                <span>
+                    Hao-Wen Dong and Yi-Hsuan Yang. Convolutional generative adversarial networks with binary neurons for polyphonic music generation, 2018
+                </span>,
+                <span>
+                    Wen-Yi Hsiao Hao-Wen Dong and Yi-Hsuan Yang. Pypianoroll: Open source python package for handling multitrack pianoroll. <em>Late-Breaking
+                    Demos of the 19th International Society for Music Information Retrieval Conference (ISMIR)</em>, 2018.
+                </span>,
+                <span>
+                    Robin Brügger, Christian F. Baumgartner, and Ender Konukoglu. A partially reversible u-net for memory-efficient volumetric image segmentation. <em>arXiv:1906.06148</em>, 2019
+                </span>,
+                <span>
+                    Adam Roberts, Jesse Engel, Colin Raffel, Curtis Hawthorne, and Douglas Eck. A hierarchical latent vector model for learning long-term structure in music, 2019.
                 </span>
             ]}/>
             

@@ -14,6 +14,7 @@ import Dashboard from './pages/dashboard'
 import 'react-toastify/dist/ReactToastify.css'
 import 'katex/dist/katex.min.css'
 import Survey from './pages/survey'
+import GuestSurveyPage from './pages/guest-survey'
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
 						<Route path='/login' exact>
 							<SurveyLogin setUser={setUser}/>
 						</Route>
+						<Route path='/guest-survey' exact component={GuestSurveyPage}/>
 						<ProtectedRoute path='/survey' exact user={user} setUser={setUser} component={Survey}/>
 						<ProtectedRoute path='/dashboard' exact user={user} setUser={setUser} adminOnly={true} component={Dashboard}/>
 
