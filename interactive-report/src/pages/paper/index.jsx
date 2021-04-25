@@ -640,7 +640,7 @@ const Paper = props => {
                 The mean scores as seen in <strong>Table 1</strong> above indicate the proportion of correctly
                 classified tracks from each source. We see that the samples from the RevNet were misclassified more
                 often than those coming from the VAE, indicating that survey participants mistook these tracks for 
-                being human generated 44\% of the time (despite only 42% of the time with the VAE). While the data
+                being human generated 44% of the time (despite only 42% of the time with the VAE). While the data
                 suggests that the RevNet is the better model, unfortunately there is not enough data to draw a
                 statistically significant conclusion.
             </p>
