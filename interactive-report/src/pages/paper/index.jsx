@@ -213,7 +213,7 @@ const Paper = props => {
 
             <HeaderWrapper>
                 <h1>NICE Music Synthesis</h1>
-                <IconButton onClick={() => window.open('https://github.com/gyacynuk/csc412-report/tree/main/notebooks')}>
+                <IconButton onClick={() => window.open('https://github.com/gyacynuk/csc412-report')}>
                     <GithubIcon />
                 </IconButton>
             </HeaderWrapper>
